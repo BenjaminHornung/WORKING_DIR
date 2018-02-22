@@ -14,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ClientProxy extends CommonProxy {
-    //Ur mom gay
     public static BasicPlayer player = new BasicPlayer();
 
     @Override
