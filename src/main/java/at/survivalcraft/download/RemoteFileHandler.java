@@ -11,10 +11,7 @@ public class RemoteFileHandler {
     private static int portNumber = 22222;
     private static String host = "survivalcraft.at";
 
-    public boolean getSong(int id) {
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        Path p = Paths.get(s, "music");
+    public static String getSong(int id, Path p) {
         Socket clientSocket = null;
         PrintWriter os = null;
         BufferedReader is = null;
@@ -43,12 +40,12 @@ public class RemoteFileHandler {
                 os.close();
                 is.close();
                 clientSocket.close();
-                return true;
+                return p.toFile().getName();
             } catch (Exception e) {
                 System.err.println("IOException:  " + e);
             }
         }
-        return false;
+        return "";
     }
 
 }

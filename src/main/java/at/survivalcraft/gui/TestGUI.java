@@ -1,32 +1,50 @@
 package at.survivalcraft.gui;
 
+import at.survivalcraft.audio.AudioPlayer;
 import at.survivalcraft.proxy.ClientProxy;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 
+
 public class TestGUI extends GuiScreen {
     private GuiButton mButtonClose;
     private GuiLabel mLabelTest;
 
+    private boolean playerRunning = false;
+    private int currentPlayerID;
+
     @Override
     public void initGui() {
-        this.buttonList.add(mButtonClose = new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, "Close"));
-        this.labelList.add(mLabelTest = new GuiLabel(mc.fontRenderer, 1, this.width / 2 - 20, this.height / 2 + 40, 300, 20, 0xFFFFFF));
-        mLabelTest.addLine("Position: " + ClientProxy.player.getPrecision());
+        for (String st : ClientProxy.nameToID.keySet()) {
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, st));
+        }
+        this.buttonList.add(mButtonClose = new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, "close"));
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        try {
+        if (!playerRunning) {
             if (button == mButtonClose) {
-                ClientProxy.player.stop();
                 mc.displayGuiScreen(new GuiMainMenu());
+            } else {
+                int ID = ClientProxy.nameToID.get(button.displayString);
+                AudioPlayer.startPlayer(ID);
+                playerRunning = true;
+                currentPlayerID = ID;
             }
-        } catch (BasicPlayerException e) {
-            e.printStackTrace();
+        } else {
+            AudioPlayer.stopPlayer(currentPlayerID);
+            if (button == mButtonClose) {
+                mc.displayGuiScreen(new GuiMainMenu());
+                playerRunning = false;
+            } else {
+                int ID = ClientProxy.nameToID.get(button.displayString);
+                AudioPlayer.startPlayer(ID);
+                playerRunning = true;
+                currentPlayerID = ID;
+            }
         }
     }
 
