@@ -28,10 +28,11 @@ public class ClientProxy extends CommonProxy {
         IDs.add(1);
         IDs.add(2);
         for (int ID : IDs) {
+            System.out.println("Downloading song: " + ID);
             String s = getSong(ID, musicDir);
             nameToID.put(s, ID);
-            musicDir = Paths.get(musicDir.toString(), s);
-            addPlayer(ID, musicDir.toFile());
+            Path tmp = Paths.get(musicDir.toString(), s);
+            addPlayer(ID, tmp.toFile());
         }
     }
 

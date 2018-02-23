@@ -17,8 +17,11 @@ public class TestGUI extends GuiScreen {
 
     @Override
     public void initGui() {
+        int i = 1;
         for (String st : ClientProxy.nameToID.keySet()) {
-            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, st));
+            System.out.println(i + " " + st);
+            this.buttonList.add(new GuiButton(i, this.width / 2 - 100, this.height - (this.height / i) + 10, st));
+            i++;
         }
         this.buttonList.add(mButtonClose = new GuiButton(0, this.width / 2 - 100, this.height - (this.height / 4) + 10, "close"));
     }

@@ -12,6 +12,10 @@ public class RemoteFileHandler {
     private static String host = "survivalcraft.at";
 
     public static String getSong(int id, Path p) {
+        File f = p.toFile();
+        if (!f.exists()) {
+            f.mkdirs();
+        }
         Socket clientSocket = null;
         PrintWriter os = null;
         BufferedReader is = null;
